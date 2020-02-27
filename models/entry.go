@@ -43,7 +43,7 @@ func (e *Entry) Validate() error {
 
 func (e *Entry) GetAllEntries(db *gorm.DB) (*[]Entry, error) {
 	entries := []Entry{}
-	db = db.Model(&Entry{}).Find(&entries).Order("Version DESC") // Consider Limit
+	db = db.Model(&Entry{}).Find(&entries).Order("version DESC") // Consider Limit
 
 	if db.Error != nil {
 		return nil, db.Error
@@ -55,7 +55,7 @@ func (e *Entry) GetAllEntries(db *gorm.DB) (*[]Entry, error) {
 
 func (e *Entry) GetAllVersions(db *gorm.DB, id uint32) (*[]Entry, error) {
 	entries := []Entry{}
-	db = db.Model(&Entry{}).Find(&entries).Where("id = ?", id).Order("Version DESC") // Consider Limit
+	db = db.Model(&Entry{}).Find(&entries).Where("id = ?", id).Order("version DESC") // Consider Limit
 
 	if db.Error != nil {
 		return nil, db.Error
@@ -65,7 +65,7 @@ func (e *Entry) GetAllVersions(db *gorm.DB, id uint32) (*[]Entry, error) {
 }
 
 func (e *Entry) GetNewestVersion(db *gorm.DB, id uint32) (*Entry, error) {
-	db = db.Model(&Entry{}).Where("id = ?", id).Order("Version DESC").Take(&e)
+	db = db.Model(&Entry{}).Where("id = ?", id).Order("version DESC").Take(&e)
 
 	if db.Error != nil {
 		return nil, db.Error
