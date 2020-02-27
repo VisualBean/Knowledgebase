@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"knowledgebase/models"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
@@ -16,8 +18,8 @@ const (
 )
 
 type Server struct {
-	DB     *gorm.DB
-	Router *chi.Mux
+	Database *gorm.DB
+	Router   *chi.Mux
 }
 
 func initializeRoutes() *chi.Mux {
@@ -41,11 +43,13 @@ func (server *Server) Initialize(dbUser string, dbPassword string, dbAddress str
 	var err error
 
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s/%s?charset=utf8&parseTime=True&loc=Local", dbUser, dbPassword, dbAddress, dbName)
-	server.DB, err = gorm.Open("mysql", connectionString)
+	server.Database, err = gorm.Open("mysql", connectionString)
 
 	if err != nil {
 		log.Fatal("Cannot connect to database")
 	}
+
+	server.Database.AutoMigrate(&models.Entry{})
 
 	server.Router = initializeRoutes()
 
