@@ -15,10 +15,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-const (
-	dbName = "KB"
-)
-
 type Server struct {
 	Database *gorm.DB
 	Router   *chi.Mux
@@ -43,6 +39,7 @@ func initializeRoutes(server *Server) *chi.Mux {
 
 func (server *Server) Initialize(user string, password string, host string, port string, database string) {
 	var err error
+	//connectionString := "user:12345678@tcp(127.0.0.1:3306)/KB"
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, port, database)
 	server.Database, err = gorm.Open("mysql", connectionString)
 
@@ -65,6 +62,5 @@ func (server *Server) Initialize(user string, password string, host string, port
 }
 
 func (server *Server) Start(address string) {
-	fmt.Printf("Starting server at: %s", address)
 	log.Fatal(http.ListenAndServe(address, server.Router))
 }
