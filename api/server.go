@@ -41,10 +41,9 @@ func initializeRoutes(server *Server) *chi.Mux {
 	return router
 }
 
-func (server *Server) Initialize(dbUser string, dbPassword string, dbAddress string) {
+func (server *Server) Initialize(user string, password string, host string, port string, database string) {
 	var err error
-
-	connectionString := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", dbUser, dbPassword, dbName)
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, port, database)
 	server.Database, err = gorm.Open("mysql", connectionString)
 
 	if err != nil {
