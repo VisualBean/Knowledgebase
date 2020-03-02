@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -40,7 +39,7 @@ func (e *Entry) Validate() error {
 	if e.DocumentLocation == "" {
 		return errors.New("documentLocation required")
 	}
-	if len(e.Elements) == 0 {
+	if len(e.Elements) == 0 || e.Elements == nil {
 		return errors.New("atleast one element required")
 	}
 
@@ -109,7 +108,7 @@ func (e *Entry) UpdateEntry(db *gorm.DB, uuid uuid.UUID) (*Entry, error) {
 	existing := &Entry{}
 
 	err = db.Preload("Elements").Where("uuid = ?", uuid).Order("version DESC").Take(&existing).Error
-	fmt.Printf("%+v\n", existing)
+
 	if err != nil {
 		if db.Error == gorm.ErrRecordNotFound {
 			return nil, ErrNotFound
@@ -117,7 +116,7 @@ func (e *Entry) UpdateEntry(db *gorm.DB, uuid uuid.UUID) (*Entry, error) {
 
 		return nil, db.Error
 	}
-	println("After error")
+
 	existing.DocumentLocation = e.DocumentLocation
 	existing.Elements = e.Elements
 
