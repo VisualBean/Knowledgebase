@@ -1,0 +1,14 @@
+apiVersion: v1  
+kind: Service
+metadata:
+  name: knowledgebase-api
+  labels:
+    app: knowledgebase-api
+spec:
+  type: NodePort
+  selector:
+    app: knowledgebase-api
+  ports: 
+  - name: http
+    port: 3000
+    targetPort: 3000
