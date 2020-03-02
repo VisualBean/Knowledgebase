@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"knowledgebase/api"
 	"os"
 )
@@ -8,6 +9,6 @@ import (
 var server api.Server
 
 func main() {
-	server.Initialize(os.Getenv("user"), os.Getenv("password"), os.Getenv("127.0.0.1"))
-	server.Start(":8080")
+	server.Initialize("user", "12345678", "127.0.0.1")
+	server.Start(fmt.Sprint(":%s", os.Getenv("PORT")))
 }
