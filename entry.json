@@ -1,0 +1,13 @@
+{
+    "documentLocation": "testLocation",
+    "elements": [
+        {
+            "type": "h1",
+            "text": "this is knowledge!"
+        },
+        {
+            "type": "p",
+            "text": "secondary"
+        }
+    ]
+}
